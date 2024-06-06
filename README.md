@@ -5,7 +5,7 @@
 Este proyecto es una aplicación web desarrollada con Next.js y TypeScript que consume datos de un archivo JSON para mostrar una lista de películas. La aplicación permite filtrar las películas por nombre, descripción y género.
 
 # Clonar el repositorio:
-git clone https://github.com/tu-usuario/movie-app.git
+git clone https://github.com/waltermatossecce/Frontend-Pelicula
 
 # Tecnologías Utilizadas
 React: Biblioteca de JavaScript para construir interfaces de usuario.
