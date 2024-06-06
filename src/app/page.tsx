@@ -1,95 +1,78 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import MovieItem from "./components/MovieItem";
+import GenreFilter from "./components/GenreFilter";
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+interface Movie {
+  id: number;
+  title: string;
+  description: string;
+  genre: string[];
 }
+
+const MovieList: React.FC = () => {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [genreFilter, setGenreFilter] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    axios
+      .get("/movies.json")
+      .then((response) => {
+        setMovies(response.data);
+        setFilteredMovies(response.data);
+      })
+      .catch((error) => {
+        setError("No se pudo cargar los datos de las películas.");
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    setFilteredMovies(
+      movies.filter(
+        (movie) =>
+          (movie.title.toLowerCase().includes(search.toLowerCase()) ||
+            movie.description.toLowerCase().includes(search.toLowerCase())) &&
+          (genreFilter.length === 0 ||
+            genreFilter.some((genre) => movie.genre.includes(genre)))
+      )
+    );
+  }, [search, genreFilter, movies]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Buscar por título, descripción"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <GenreFilter
+        genres={["Action", "Drama", "Crime"]}
+        selectedGenres={genreFilter}
+        setSelectedGenres={setGenreFilter}
+      />
+      <div className="movie-list">
+        {filteredMovies.map((movie, index) => (
+          <MovieItem
+            key={movie.id}
+            title={movie.title}
+            description={movie.description}
+            genre={movie.genre}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default MovieList;

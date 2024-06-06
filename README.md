@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Proyecto de Películas
 
-## Getting Started
+## Descripción
 
-First, run the development server:
+Este proyecto es una aplicación web desarrollada con Next.js y TypeScript que consume datos de un archivo JSON para mostrar una lista de películas. La aplicación permite filtrar las películas por nombre, descripción y género.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Clonar el repositorio:
+git clone https://github.com/tu-usuario/movie-app.git
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Tecnologías Utilizadas
+React: Biblioteca de JavaScript para construir interfaces de usuario.
+Axios: Cliente HTTP para realizar solicitudes al archivo JSON.
+CSS: Hojas de estilo para el diseño y la presentación de la interfaz de usuario.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Estructura del Proyecto
+El proyecto sigue una estructura básica de carpetas:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+src/: Contiene todo el código fuente de la aplicación.
+components/: Componentes de React reutilizables.
+App.js: Punto de entrada principal de la aplicación.
+styles.css: Estilos CSS globales de la aplicación.
 
-## Learn More
+# Detalles de Implementación
+Se utiliza Axios para realizar solicitudes HTTP al archivo JSON que contiene los datos de las películas.
 
-To learn more about Next.js, take a look at the following resources:
+Se desarrollan componentes de React para mostrar la lista de películas y los filtros de búsqueda.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+La lógica de filtrado se implementa en React para actualizar dinámicamente la lista de películas según los criterios de búsqueda del usuario.
